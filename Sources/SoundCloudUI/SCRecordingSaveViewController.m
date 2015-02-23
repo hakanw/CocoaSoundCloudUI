@@ -1326,11 +1326,16 @@ const NSArray *allServices = nil;
                                              self.uploadRequestHandler = nil;
                                              
                                              NSError *jsonError = nil;
-                                             id result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                                             id result = nil;
+                                             if(data)
+                                                 result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                                              
                                              if (error || jsonError || result == nil) {
                                                  
                                                  // Handle Error
+                                                 
+                                                 if (!data)
+                                                     NSLog(@"Upload failed, server returned empty data");
                                                  
                                                  if (error)
                                                      NSLog(@"Upload failed with error: %@", [error localizedDescription]);
